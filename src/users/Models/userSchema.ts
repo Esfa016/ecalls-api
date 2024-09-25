@@ -1,6 +1,7 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as bcrypt from 'bcrypt'
+import { AccountRoles } from 'src/Global/sharables';
 @Schema({ timestamps: true })
 export class Users extends Document{
     @Prop({})
@@ -14,7 +15,9 @@ export class Users extends Document{
     @Prop({ type: Boolean, default:false })
     emailVerified: boolean
     @Prop({ type: Date })
-    lastLogin:Date
+    lastLogin: Date
+    @Prop({ enum: AccountRoles ,default:AccountRoles.CLIENT})
+    role:AccountRoles
     
 }
 export const UserSchema = SchemaFactory.createForClass(Users)

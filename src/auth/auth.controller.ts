@@ -13,6 +13,7 @@ import { Response } from 'express';
 import { CreateUserDTO } from 'src/users/DTO/userDTO';
 import { Users } from 'src/users/Models/userSchema';
 import { SuccessMessages } from 'src/Global/messages';
+import { LoginUserDTO } from './DTO/authDTO';
 
 @Controller({ version: '1', path: 'auth' })
 export class AuthController {
@@ -21,12 +22,22 @@ export class AuthController {
   @Post('/sign-up')
   async signUp(@Res() res: Response, @Body() body: CreateUserDTO) {
     const result: Users = await this.authService.signUp(body);
+    return res.status(HttpStatus.CREATED).json({
+      success: true,
+      message: SuccessMessages.SaveSuccessful,
+      userId: result._id,
+    });
+  }
+
+  @Post('/login')
+  async login(@Res() res: Response, @Body() body: LoginUserDTO) {
+    const result = await this.authService.loginUser(body);
     return res
-      .status(HttpStatus.CREATED)
+      .status(HttpStatus.OK)
       .json({
         success: true,
-        message: SuccessMessages.SaveSuccessful,
-        userId: result._id,
+        message: SuccessMessages.LoginSuccessful,
+        ...result,
       });
   }
 }
