@@ -6,7 +6,7 @@ import { CreateAgentDTO } from './DTO/agentDTO';
 import { ApiCallsService } from 'src/api_calls/api_calls.service';
 import { ACTION_VERBS } from 'src/api_calls/DTO/apiCallsDTO';
 import { ConfigService } from '@nestjs/config';
-import { currentUser } from 'src/Global/sharables';
+import { AccountRoles, currentUser } from 'src/Global/sharables';
 import { QueryParamsDTO } from 'src/Global/Validations/pagination';
 import { PaginationHelper } from 'src/Global/helpers';
 
@@ -29,13 +29,14 @@ export class AgentsService {
     return agent
   }
   async getAllAgents(pagination: QueryParamsDTO) {
-    const totalData:number = await this.repository.countDocuments()
-    const data: Agents[] = await this.repository.find().skip(PaginationHelper.paginateQuery(pagination)).limit(pagination.limit)
+    const query= currentUser.role===AccountRoles.CLIENT?{createdBy:currentUser.id}:{}
+    const totalData:number = await this.repository.countDocuments(query)
+    const data: Agents[] = await this.repository.find(query).skip(PaginationHelper.paginateQuery(pagination)).limit(pagination.limit)
     return {
       totalData: totalData,
       agents:data
     }
   }
   
-  
+
 }

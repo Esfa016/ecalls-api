@@ -8,6 +8,7 @@ import {
   Put,
   HttpStatus,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AgentsService } from './agents.service';
 import { Response } from 'express';
@@ -16,20 +17,31 @@ import { SuccessMessages } from 'src/Global/messages';
 import { UserAuthGuard } from 'src/auth/Guards/jwtStrategy';
 import { RbacGuard } from 'src/auth/Guards/RbacGuard';
 import { AccountRoles } from 'src/Global/sharables';
+import { QueryParamsDTO } from 'src/Global/Validations/pagination';
 
 @Controller({ version: '1', path: 'agents' })
 export class AgentsController {
-  constructor(private readonly agentsService: AgentsService) { }
-  @UseGuards(UserAuthGuard,new RbacGuard([AccountRoles.CLIENT]))
+  constructor(private readonly agentsService: AgentsService) {}
+  @UseGuards(UserAuthGuard)
   @Post()
-  async getSomething(@Res() res: Response, @Body() body: CreateAgentDTO) {
+  async createAgents(@Res() res: Response, @Body() body: CreateAgentDTO) {
     const result = await this.agentsService.createAgents(body);
+    return res.status(HttpStatus.CREATED).json({
+      success: true,
+      message: SuccessMessages.SaveSuccessful,
+      agent: result,
+    });
+  }
+  @UseGuards(UserAuthGuard)
+  @Get()
+  async getAgents(@Res() res: Response, @Query() pagination: QueryParamsDTO) {
+    const result = await this.agentsService.getAllAgents(pagination);
     return res
-      .status(HttpStatus.CREATED)
+      .status(HttpStatus.OK)
       .json({
         success: true,
-        message: SuccessMessages.SaveSuccessful,
-        agent: result,
+        totalData: result.totalData,
+        agents: result.agents,
       });
   }
 }

@@ -9,7 +9,7 @@ import { ForbiddenException } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { ErrorMessages } from 'src/Global/messages';
-import { setCurrentUser } from 'src/Global/sharables';
+import { currentUser, setCurrentUser } from 'src/Global/sharables';
 import { Users } from 'src/users/Models/userSchema';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from '../auth.service';
