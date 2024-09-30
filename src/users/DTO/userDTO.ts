@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsStrongPassw
 export class CreateUserDTO {
     @IsString()
     @IsNotEmpty()
-    firstName: string
+    fullName: string
     @IsStrongPassword()
     @IsNotEmpty()
     password: string
