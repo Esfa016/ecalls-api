@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users } from './Models/userSchema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateUserDTO } from './DTO/userDTO';
 import { ErrorMessages } from 'src/Global/messages';
 
@@ -19,5 +19,9 @@ export class UsersService {
 
      getUserByEmail({ email }: { email: string }) {
           return this.repository.findOne({email:email})
+    }
+
+    findUserById(id: mongoose.Schema.Types.ObjectId) {
+        return this.repository.findById(id)
     }
 }

@@ -1,0 +1,21 @@
+{
+  "voice": "s3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json",
+  "voiceSpeed": 1.2,
+  "displayName": "My Agent",
+  "description": "My agent is the best agent",
+  "greeting": "Hello! How can I help you today?",
+  "prompt": "You are an agent for a company that sells widgets. A customer calls in and asks about the different types of widgets you sell. You should respond by telling the customer about the different types of widgets you sell and how they differ from each other.\n",
+  "criticalKnowledge": "We have been in business for 20 years and have sold over 1 million widgets. Currently, we have 3 types of widgets: the standard widget, the deluxe widget, and the super widget. The standard widget is our most popular widget and is the most affordable. The deluxe widget is our mid-range widget and is popular with customers who want a little more than the standard widget. The super widget is our top of the line widget and is popular with customers who want the best of the best.",
+  "visibility": "public",
+  "answerOnlyFromCriticalKnowledge": true,
+  "llm": {
+    "baseURL": "https://my.own.llm.api.example.com",
+    "apiKey": "abcdefghijklmnopqrstuvwxyz",
+    "baseParams": {
+      "defaultHeaders": { "x-my-extra-key": "some-value-for-extra-key" },
+      "model": "gpt-3.5-turbo",
+      "temperature": 0,
+      "maxTokens": 3000
+    }
+  }
+}

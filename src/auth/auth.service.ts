@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDTO } from 'src/users/DTO/userDTO';
 import { UsersService } from 'src/users/users.service';
@@ -7,6 +7,7 @@ import { LoginUserDTO } from './DTO/authDTO';
 import { Users } from 'src/users/Models/userSchema';
 import { ErrorMessages } from 'src/Global/messages';
 import { JwtService } from '@nestjs/jwt';
+import mongoose from 'mongoose';
 @Injectable()
 export class AuthService {
   constructor(
@@ -30,6 +31,8 @@ export class AuthService {
     );
     if (!passMatch)
       throw new UnauthorizedException(ErrorMessages.IncorrectCredentials);
+    if (!userFound.emailVerified) throw new ForbiddenException(ErrorMessages.VerificationRequired)
+    if(!userFound.active) throw new ForbiddenException(ErrorMessages.AccountDisabled)
     const accessToken = this.jwtService.sign({
       id: userFound._id,
       role: userFound.role,
@@ -43,5 +46,9 @@ export class AuthService {
         ...userFound['_doc'],
       },
     };
+  }
+
+  async findUserById(id: mongoose.Schema.Types.ObjectId) {
+    return await this.userService.findUserById(id)
   }
 }

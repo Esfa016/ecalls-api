@@ -17,7 +17,9 @@ export class Users extends Document{
     @Prop({ type: Date })
     lastLogin: Date
     @Prop({ enum: AccountRoles ,default:AccountRoles.CLIENT})
-    role:AccountRoles
+    role: AccountRoles
+    @Prop({ type: Boolean, default: true })
+    active:Boolean
     
 }
 export const UserSchema = SchemaFactory.createForClass(Users)

@@ -14,6 +14,7 @@ export const ErrorMessages = {
   OtpNotFound: 'Otp code is incorrect. Please try again.',
   OtpExpired: 'Otp code expired. Please request a new one.',
   BookingNotFound: 'There is no booking saved with this id.',
+  VerificationRequired: 'Please verify your email to continue.'
 };
 export const SuccessMessages = {
   SaveSuccessful: 'Your changes have been saved successfully.',
