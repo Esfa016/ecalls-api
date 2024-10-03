@@ -36,6 +36,9 @@ export class Agents extends Document {
   llm:LLMDto
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Users.name })
-  createdBy:mongoose.Schema.Types.ObjectId
+  createdBy: mongoose.Schema.Types.ObjectId
+  
+  @Prop()
+  agentId:string
 }
 export const AgentConfigSchema = SchemaFactory.createForClass(Agents);

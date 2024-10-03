@@ -6,6 +6,7 @@ import config from './configs'
 import { MongooseModule } from '@nestjs/mongoose';
 import { AgentsModule } from './agents/agents.module';
 import { ApiCallsModule } from './api_calls/api_calls.module';
+import { ConversationsModule } from './conversations/conversations.module';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { ApiCallsModule } from './api_calls/api_calls.module';
     MongooseModule.forRoot(process.env.DB_CONN),
     AgentsModule,
     ApiCallsModule,
+    ConversationsModule,
   
   ],
   controllers: [],

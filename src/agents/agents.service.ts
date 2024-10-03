@@ -19,24 +19,33 @@ export class AgentsService {
   ) {}
 
   async createAgents(body: CreateAgentDTO) {
-    const response =await this.apiCallService.sendRequest({
+    const response = await this.apiCallService.sendRequest({
       uri: this.configService.get('playApiUrl') + '/api/v1/agents',
       method: ACTION_VERBS.POST,
       body: body,
     });
-    delete(response.data.id)
-    const agent: Agents = await this.repository.create({ ...response.data, createdBy: currentUser.id })
-    return agent
+    const agentId = response.data.id;
+    delete response.data.id;
+    const agent: Agents = await this.repository.create({
+      ...response.data,
+      createdBy: currentUser.id,
+      agentId: agentId,
+    });
+    return agent;
   }
   async getAllAgents(pagination: QueryParamsDTO) {
-    const query= currentUser.role===AccountRoles.CLIENT?{createdBy:currentUser.id}:{}
-    const totalData:number = await this.repository.countDocuments(query)
-    const data: Agents[] = await this.repository.find(query).skip(PaginationHelper.paginateQuery(pagination)).limit(pagination.limit)
+    const query =
+      currentUser.role === AccountRoles.CLIENT
+        ? { createdBy: currentUser.id }
+        : {};
+    const totalData: number = await this.repository.countDocuments(query);
+    const data: Agents[] = await this.repository
+      .find(query)
+      .skip(PaginationHelper.paginateQuery(pagination))
+      .limit(pagination.limit);
     return {
       totalData: totalData,
-      agents:data
-    }
+      agents: data,
+    };
   }
-  
-
 }
