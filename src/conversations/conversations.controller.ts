@@ -1,4 +1,11 @@
-import { Controller, Get, HttpStatus, Param, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { Response } from 'express';
 import { UserAuthGuard } from 'src/auth/Guards/jwtStrategy';
@@ -20,8 +27,17 @@ export class ConversationsController {
   }
 
   @Get('transcript/:agentId/:conversationId')
-  async getTranscripts(@Res() response: Response, @Param('agentId') agentId: string, @Param('conversationId') conversationId: string) {
-    const result = await this.conversationsService.getConversationTranscript(agentId, conversationId)
-    return response.status(HttpStatus.OK).json({success:true,transcripts:result})
+  async getTranscripts(
+    @Res() response: Response,
+    @Param('agentId') agentId: string,
+    @Param('conversationId') conversationId: string,
+  ) {
+    const result = await this.conversationsService.getConversationTranscript(
+      agentId,
+      conversationId,
+    );
+    return response
+      .status(HttpStatus.OK)
+      .json({ success: true, transcripts: result });
   }
 }

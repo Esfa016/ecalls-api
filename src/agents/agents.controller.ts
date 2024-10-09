@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UseGuards,
   Query,
+  Param,
 } from '@nestjs/common';
 import { AgentsService } from './agents.service';
 import { Response } from 'express';
@@ -43,5 +44,12 @@ export class AgentsController {
         totalData: result.totalData,
         agents: result.agents,
       });
+  }
+
+  @UseGuards(UserAuthGuard)
+  @Get("/:agentId")
+  async getAgentById(@Res() res:Response,@Param('agentId') agentId: string) {
+    const result = await this.agentsService.getAgentByAgentId(agentId)
+    return res.status(HttpStatus.OK).json({success:true,agent:result})
   }
 }

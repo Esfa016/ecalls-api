@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Agents } from './Models/agentSchema';
 import { Model } from 'mongoose';
@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { AccountRoles, currentUser } from 'src/Global/sharables';
 import { QueryParamsDTO } from 'src/Global/Validations/pagination';
 import { PaginationHelper } from 'src/Global/helpers';
+import { ErrorMessages } from 'src/Global/messages';
 
 @Injectable()
 export class AgentsService {
@@ -24,14 +25,19 @@ export class AgentsService {
       method: ACTION_VERBS.POST,
       body: body,
     });
-    const agentId = response.data.id;
-    delete response.data.id;
-    const agent: Agents = await this.repository.create({
-      ...response.data,
-      createdBy: currentUser.id,
-      agentId: agentId,
-    });
-    return agent;
+    if (response.status === HttpStatus.CREATED) {
+      const agentId = response.data.id;
+      delete response.data.id;
+      const agent: Agents = await this.repository.create({
+        ...response.data,
+        createdBy: currentUser.id,
+        agentId: agentId,
+      });
+      return agent;
+    } else {
+      console.log(response.status);
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    }
   }
   async getAllAgents(pagination: QueryParamsDTO) {
     const query =
@@ -47,5 +53,9 @@ export class AgentsService {
       totalData: totalData,
       agents: data,
     };
+  }
+
+  getAgentByAgentId(agentId: string) {
+    return this.repository.findOne({agentId:agentId});
   }
 }

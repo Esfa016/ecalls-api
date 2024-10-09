@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AgentsModule } from './agents/agents.module';
 import { ApiCallsModule } from './api_calls/api_calls.module';
 import { ConversationsModule } from './conversations/conversations.module';
+import { CustomActionModule } from './custom-action/custom-action.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { ConversationsModule } from './conversations/conversations.module';
     AgentsModule,
     ApiCallsModule,
     ConversationsModule,
+    CustomActionModule,
   
   ],
   controllers: [],

@@ -38,7 +38,7 @@ export class Agents extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Users.name })
   createdBy: mongoose.Schema.Types.ObjectId
   
-  @Prop()
+  @Prop({index:true})
   agentId:string
 }
 export const AgentConfigSchema = SchemaFactory.createForClass(Agents);

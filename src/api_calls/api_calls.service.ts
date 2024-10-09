@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ApiCallsService {
-  constructor(private httpService: HttpService,private configService:ConfigService) {}
+  constructor(private configService:ConfigService) {}
 
   sendRequest(data: MakeRequestDTO) {
       switch (data.method) {

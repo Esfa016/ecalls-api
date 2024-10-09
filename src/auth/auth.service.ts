@@ -19,6 +19,8 @@ export class AuthService {
     return await this.userService.createUser(body);
   }
 
+  
+
   async loginUser(body: LoginUserDTO) {
     const userFound: Users = await this.userService.getUserByEmail({
       email: body.email,

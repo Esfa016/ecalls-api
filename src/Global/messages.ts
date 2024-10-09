@@ -24,4 +24,5 @@ export const SuccessMessages = {
   RedirectionSuccessful: 'Payment redirection successful.',
   ResetPasswordSent:
     'We have sent an OTP to your account. Please check your email.',
+  OtpSent:'We have sent an OTP to your email. Please verify your account to continue.'
 };

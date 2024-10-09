@@ -24,7 +24,7 @@ export class AuthController {
     const result: Users = await this.authService.signUp(body);
     return res.status(HttpStatus.CREATED).json({
       success: true,
-      message: SuccessMessages.SaveSuccessful,
+      message: SuccessMessages.OtpSent,
       userId: result._id,
     });
   }
