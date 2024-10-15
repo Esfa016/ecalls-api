@@ -48,6 +48,20 @@ export class ApiCallsService {
             },
           });
         }
+        case ACTION_VERBS.PATCH: {
+          return axios.default({
+            url: data.uri,
+            method: ACTION_VERBS.PATCH,
+            data: data.body,
+            headers: {
+              AUTHORIZATION: this.configService.get('playSecretKey'),
+              'X-USER-ID': this.configService.get('playUserId'),
+              'content-type': 'application/json',
+              accept: 'application/json',
+            },
+          });
+          }
+          
         case ACTION_VERBS.DELETE: {
           return axios.default({
             url: data.uri,

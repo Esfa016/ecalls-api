@@ -12,6 +12,7 @@ export enum ACTION_VERBS {
   GET = 'get',
   PUT = 'put',
   DELETE = 'delete',
+  PATCH  = 'patch'
 }
 
 export interface MakeRequestDTO {

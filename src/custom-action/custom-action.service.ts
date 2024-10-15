@@ -65,4 +65,20 @@ export class CustomActionService {
       customActions: data,
     };
   }
+  async bindWithAgent(agentId: string, customActionId: string) {
+    try {
+      const response = await this.apiCallsService.sendRequest({
+        uri: `${this.configService.get('playApiUrl')}/api/v1/agents/${agentId}/actions/${customActionId}`,
+        method: ACTION_VERBS.PATCH,
+        body: {
+          name: 'Kuantaw ziq ale',
+          description: 'Fetch available appointment times for the user',
+          endpoint: 'https://your-api.com/api/appointments',
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

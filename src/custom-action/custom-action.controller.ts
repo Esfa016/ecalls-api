@@ -9,6 +9,8 @@ import {
   Res,
   HttpStatus,
   Query,
+  Patch,
+  Param,
 } from '@nestjs/common';
 import { CustomActionService } from './custom-action.service';
 import { Response } from 'express';
@@ -38,5 +40,11 @@ export class CustomActionController {
   async getActions(@Res() res: Response, @Query() query: QueryParamsDTO) {
     const result = await this.customActionService.getAllActions(query);
     return res.status(HttpStatus.OK).json(result);
+  }
+
+  @UseGuards(UserAuthGuard)
+  @Patch('/bind/:agentId/:customActionId')
+  async bindWithAction(@Res() res: Response, @Param('agentId') agentId: string, @Param('customActionId') customActionId: string) {
+    const result = await this.customActionService.bindWithAgent(agentId,customActionId)
   }
 }
