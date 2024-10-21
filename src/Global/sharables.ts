@@ -38,30 +38,35 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
           : (exceptionResponse as any).message;
 
       if (status !== HttpStatus.INTERNAL_SERVER_ERROR) {
+
         response.status(status).json({
           statusCode: status,
           timestamp: new Date().toISOString(),
           path: request.url,
           message: message,
+          
         });
       } else {
+        
         this.logger.error(exception);
 
         response.status(status).json({
           statusCode: status,
           timestamp: new Date().toISOString(),
           path: request.url,
-          message: ErrorMessages.InternalServerError,
+          message: ErrorMessages.InternalServerError
+         
         });
       }
     } else {
+     
       this.logger.error(exception);
-
       response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         timestamp: new Date().toISOString(),
         path: request.url,
         message: ErrorMessages.InternalServerError,
+      
       });
     }
 

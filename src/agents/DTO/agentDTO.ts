@@ -6,6 +6,7 @@ import {
   ValidateNested,
   IsObject,
   IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -75,4 +76,51 @@ export class CreateAgentDTO {
   @ValidateNested()
   @Type(() => LLMDto)
   llm: LLMDto;
+}
+
+export class UpdateAgentDTO {
+  @IsString()
+ @IsOptional()
+  voice: string;
+
+  @IsNumber()
+  voiceSpeed: number;
+
+  @IsString()
+ @IsOptional()
+  displayName: string;
+
+  @IsString()
+ @IsOptional()
+  description: string;
+
+  @IsString()
+ @IsOptional()
+  greeting: string;
+
+  @IsString()
+ @IsOptional()
+  prompt: string;
+
+  @IsString()
+ @IsOptional()
+  criticalKnowledge: string;
+  @IsOptional()
+  @IsEnum(['public', 'private'])
+  visibility: string;
+
+  @IsBoolean()
+    @IsOptional()
+  answerOnlyFromCriticalKnowledge: boolean;
+
+  @ValidateNested()
+  @Type(() => LLMDto)
+  llm: LLMDto;
+}
+
+export interface IAgentStats {
+  id: string;
+  numberOfConversations: number;
+  numberOfPhoneConversations: number;
+  numberOfSecondsTalked: number;
 }

@@ -1,8 +1,8 @@
-import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Agents } from './Models/agentSchema';
 import { Model } from 'mongoose';
-import { CreateAgentDTO } from './DTO/agentDTO';
+import { CreateAgentDTO, IAgentStats, UpdateAgentDTO } from './DTO/agentDTO';
 import { ApiCallsService } from 'src/api_calls/api_calls.service';
 import { ACTION_VERBS } from 'src/api_calls/DTO/apiCallsDTO';
 import { ConfigService } from '@nestjs/config';
@@ -57,5 +57,42 @@ export class AgentsService {
 
   getAgentByAgentId(agentId: string) {
     return this.repository.findOne({agentId:agentId});
+  }
+
+  async editAgent(agentId: string, body: UpdateAgentDTO) {
+    
+    let agentFound: Agents = await this.getAgentByAgentId(agentId)
+    if (!agentFound) throw new NotFoundException(ErrorMessages.AgentNotFound)
+    const response = await this.apiCallService.sendRequest({
+      uri: this.configService.get('playApiUrl') + `/api/v1/agents/${agentId}`,
+      method: ACTION_VERBS.PATCH,
+      body: body,
+    });
+    
+    if (response.status === HttpStatus.OK) {
+      agentFound = await this.repository.findOneAndUpdate({ agentId: agentId }, body, { new: true })
+    }
+    else { 
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError)
+    }
+    return agentFound;
+  }
+  async getAgentStats(agentId: string) {
+    const response = await this.apiCallService.sendRequest({
+      uri: this.configService.get('playApiUrl') + `/api/v1/agent-stats/${agentId}`,
+      method:ACTION_VERBS.GET
+    });
+    if (response.status === HttpStatus.OK) {
+      const data: IAgentStats = response.data;
+      return data;
+    }
+    else {
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError)
+    }
+    
+  
+   
+
+
   }
 }
