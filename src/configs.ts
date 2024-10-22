@@ -13,4 +13,6 @@ export default () => ({
   playUserId: process.env.PLAY_API_USER_ID,
   playSecretKey: process.env.PLAY_API_SECRET_KEY,
   playApiUrl: process.env.PLAY_API_URL,
+  aimlApi: process.env.AIML_API,
+  aimlBaseUrl: process.env.AIML_BASE_URL,
 });

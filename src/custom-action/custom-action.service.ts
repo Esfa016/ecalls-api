@@ -26,7 +26,7 @@ export class CustomActionService {
   async createActions(body: CreateCustomActionsDto) {
     let createdAction: CustomActions | null = null;
 
-    const response = await this.apiCallsService.sendRequest({
+    const response = await this.apiCallsService.sendRequestToPlayAI({
       uri: this.configService.get('playApiUrl') + `/api/v1/external-functions`,
       body: {
         method: body.method.toUpperCase(),
@@ -67,7 +67,7 @@ export class CustomActionService {
   }
   async bindWithAgent(agentId: string, customActionId: string) {
     try {
-      const response = await this.apiCallsService.sendRequest({
+      const response = await this.apiCallsService.sendRequestToPlayAI({
         uri: `${this.configService.get('playApiUrl')}/api/v1/agents/${agentId}/actions/${customActionId}`,
         method: ACTION_VERBS.PATCH,
         body: {

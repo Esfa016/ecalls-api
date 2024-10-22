@@ -8,6 +8,7 @@ import { AgentsModule } from './agents/agents.module';
 import { ApiCallsModule } from './api_calls/api_calls.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { CustomActionModule } from './custom-action/custom-action.module';
+import { LlmsModule } from './llms/llms.module';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { CustomActionModule } from './custom-action/custom-action.module';
     ApiCallsModule,
     ConversationsModule,
     CustomActionModule,
+    LlmsModule,
   
   ],
   controllers: [],

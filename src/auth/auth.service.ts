@@ -53,4 +53,5 @@ export class AuthService {
   async findUserById(id: mongoose.Schema.Types.ObjectId) {
     return await this.userService.findUserById(id)
   }
+
 }
