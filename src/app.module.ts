@@ -9,6 +9,7 @@ import { ApiCallsModule } from './api_calls/api_calls.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { CustomActionModule } from './custom-action/custom-action.module';
 import { LlmsModule } from './llms/llms.module';
+import { WebtrcModule } from './webtrc/webtrc.module';
 
 
 @Module({
@@ -17,13 +18,16 @@ import { LlmsModule } from './llms/llms.module';
       isGlobal:true,
       load: [config]
     }),
-    AuthModule, UsersModule,
+    AuthModule,
+    UsersModule,
     MongooseModule.forRoot(process.env.DB_CONN),
     AgentsModule,
     ApiCallsModule,
     ConversationsModule,
     CustomActionModule,
     LlmsModule,
+    WebtrcModule
+  
   
   ],
   controllers: [],
