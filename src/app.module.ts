@@ -10,8 +10,7 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { CustomActionModule } from './custom-action/custom-action.module';
 import { LlmsModule } from './llms/llms.module';
 import { WebtrcModule } from './webtrc/webtrc.module';
-import { CallersModule } from './callers/callers.module';
-import { PlayHtModule } from './play-ht/play-ht.module';
+
 
 
 @Module({
@@ -30,8 +29,7 @@ import { PlayHtModule } from './play-ht/play-ht.module';
     LlmsModule,
     WebtrcModule,
   
-    CallersModule,
-    PlayHtModule,
+   
   
   ],
   controllers: [],
