@@ -10,6 +10,8 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { CustomActionModule } from './custom-action/custom-action.module';
 import { LlmsModule } from './llms/llms.module';
 import { WebtrcModule } from './webtrc/webtrc.module';
+import { PlayHtModule } from './play-ht/play-ht.module';
+import { CallersModule } from './callers/callers.module';
 
 
 
@@ -28,7 +30,8 @@ import { WebtrcModule } from './webtrc/webtrc.module';
     CustomActionModule,
     LlmsModule,
     WebtrcModule,
-  
+    PlayHtModule,
+    CallersModule
    
   
   ],

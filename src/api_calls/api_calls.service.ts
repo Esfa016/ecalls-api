@@ -78,7 +78,7 @@ export class ApiCallsService {
   //   }
   // }
   sendGeneralRequest(data: MakeRequestDTO) {
-    console.log(data)
+    
     switch (data.method) {
       case ACTION_VERBS.POST: {
         return axios.default({
@@ -92,9 +92,7 @@ export class ApiCallsService {
         return axios.default({
           url: data.uri,
           method: ACTION_VERBS.GET,
-          headers: {
-            Authorization: `Bearer ${this.configService.get('aimlApi')}`,
-          },
+          headers:data.headers,
         });
       }
       case ACTION_VERBS.PUT: {

@@ -1,7 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiCallsService } from 'src/api_calls/api_calls.service';
 import { ACTION_VERBS } from 'src/api_calls/DTO/apiCallsDTO';
+import { IClonedVoices, IPrebuiltVoice } from './Validations/voiceDTO';
+import { ErrorMessages } from 'src/Global/messages';
 
 @Injectable()
 export class PlayHtService {
@@ -9,19 +15,47 @@ export class PlayHtService {
     private configService: ConfigService,
     private makeRequest: ApiCallsService,
   ) {}
-    async getPrebuiltVoices() {
-        try {
-            console.log(this.configService.get('playHtUserId'))
-            console.log(this.configService.get('playHtSecretKey'));
-            const response = await this.makeRequest.sendGeneralRequest({
-              uri: this.configService.get('playHtBaseUrl') + '/voices',
-             headers:{},
-              method: ACTION_VERBS.GET,
-            });
-            console.log(response.headers);
-        }
-        catch (err) {
-            console.log(err)
-        }
+  async getPrebuiltVoices() {
+    let voices: IPrebuiltVoice[] | [];
+
+    const response = await this.makeRequest.sendGeneralRequest({
+      uri: this.configService.get('playHtBaseUrl') + '/voices',
+      headers: {
+        Authorization: this.configService.get('playHtSecretKey'),
+        'X-USER-ID': this.configService.get('playHtUserId'),
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      method: ACTION_VERBS.GET,
+    });
+    if (response.status === HttpStatus.OK) {
+      voices = response.data;
+      return voices;
+    } else {
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    }
+  }
+
+  async getClonedVoices() {
+    let voices:IClonedVoices|[]
+    const response = await this.makeRequest.sendGeneralRequest({
+      uri: this.configService.get('playHtBaseUrl') + '/cloned-voices',
+      headers: {
+        Authorization: this.configService.get('playHtSecretKey'),
+        'X-USER-ID': this.configService.get('playHtUserId'),
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      method: ACTION_VERBS.GET,
+    });
+    if (response.status === HttpStatus.OK) {
+      voices = response.data;
+      return voices
+    }
+    else {
+       throw new InternalServerErrorException(
+         ErrorMessages.InternalServerError,
+       );
+    }
   }
 }
