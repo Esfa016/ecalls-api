@@ -25,24 +25,24 @@ export class AgentsService {
   ) {}
 
   async createAgents(body: CreateAgentDTO) {
-    const response = await this.apiCallService.sendRequestToPlayAI({
-      uri: this.configService.get('playApiUrl') + '/api/v1/agents',
-      method: ACTION_VERBS.POST,
-      body: body,
-    });
-    if (response.status === HttpStatus.CREATED) {
-      const agentId = response.data.id;
-      delete response.data.id;
-      const agent: Agents = await this.repository.create({
-        ...response.data,
-        createdBy: currentUser.id,
-        agentId: agentId,
-      });
-      return agent;
-    } else {
-      console.log(response.status);
-      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
-    }
+    // const response = await this.apiCallService.sendRequestToPlayAI({
+    //   uri: this.configService.get('playApiUrl') + '/api/v1/agents',
+    //   method: ACTION_VERBS.POST,
+    //   body: body,
+    // });
+    // if (response.status === HttpStatus.CREATED) {
+    //   const agentId = response.data.id;
+    //   delete response.data.id;
+    //   const agent: Agents = await this.repository.create({
+    //     ...response.data,
+    //     createdBy: currentUser.id,
+    //     agentId: agentId,
+    //   });
+    //   return agent;
+    // } else {
+    //   console.log(response.status);
+    //   throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    // }
   }
   async getAllAgents(pagination: QueryParamsDTO) {
     const query =
@@ -65,36 +65,36 @@ export class AgentsService {
   }
 
   async editAgent(agentId: string, body: UpdateAgentDTO) {
-    let agentFound: Agents = await this.getAgentByAgentId(agentId);
-    if (!agentFound) throw new NotFoundException(ErrorMessages.AgentNotFound);
-    const response = await this.apiCallService.sendRequestToPlayAI({
-      uri: this.configService.get('playApiUrl') + `/api/v1/agents/${agentId}`,
-      method: ACTION_VERBS.PATCH,
-      body: body,
-    });
+    // let agentFound: Agents = await this.getAgentByAgentId(agentId);
+    // if (!agentFound) throw new NotFoundException(ErrorMessages.AgentNotFound);
+    // const response = await this.apiCallService.sendRequestToPlayAI({
+    //   uri: this.configService.get('playApiUrl') + `/api/v1/agents/${agentId}`,
+    //   method: ACTION_VERBS.PATCH,
+    //   body: body,
+    // });
 
-    if (response.status === HttpStatus.OK) {
-      agentFound = await this.repository.findOneAndUpdate(
-        { agentId: agentId },
-        body,
-        { new: true },
-      );
-    } else {
-      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
-    }
-    return agentFound;
+    // if (response.status === HttpStatus.OK) {
+    //   agentFound = await this.repository.findOneAndUpdate(
+    //     { agentId: agentId },
+    //     body,
+    //     { new: true },
+    //   );
+    // } else {
+    //   throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    // }
+    // return agentFound;
   }
   async getAgentStats(agentId: string) {
-    const response = await this.apiCallService.sendRequestToPlayAI({
-      uri:
-        this.configService.get('playApiUrl') + `/api/v1/agent-stats/${agentId}`,
-      method: ACTION_VERBS.GET,
-    });
-    if (response.status === HttpStatus.OK) {
-      const data: IAgentStats = response.data;
-      return data;
-    } else {
-      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
-    }
+    // const response = await this.apiCallService.sendRequestToPlayAI({
+    //   uri:
+    //     this.configService.get('playApiUrl') + `/api/v1/agent-stats/${agentId}`,
+    //   method: ACTION_VERBS.GET,
+    // });
+    // if (response.status === HttpStatus.OK) {
+    //   const data: IAgentStats = response.data;
+    //   return data;
+    // } else {
+    //   throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    // }
   }
 }

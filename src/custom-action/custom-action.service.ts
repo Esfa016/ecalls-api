@@ -26,32 +26,32 @@ export class CustomActionService {
   async createActions(body: CreateCustomActionsDto) {
     let createdAction: CustomActions | null = null;
 
-    const response = await this.apiCallsService.sendRequestToPlayAI({
-      uri: this.configService.get('playApiUrl') + `/api/v1/external-functions`,
-      body: {
-        method: body.method.toUpperCase(),
-        name: body.name,
-        description: body.description,
-        endpointUrl: body.endpointUrl,
-        headers: body.headers,
-        params: body.params,
-      },
-      method: ACTION_VERBS.POST,
-    });
+    // const response = await this.apiCallsService.sendRequestToPlayAI({
+    //   uri: this.configService.get('playApiUrl') + `/api/v1/external-functions`,
+    //   body: {
+    //     method: body.method.toUpperCase(),
+    //     name: body.name,
+    //     description: body.description,
+    //     endpointUrl: body.endpointUrl,
+    //     headers: body.headers,
+    //     params: body.params,
+    //   },
+    //   method: ACTION_VERBS.POST,
+    // });
 
-    if (response.status === HttpStatus.CREATED) {
-      const actionId: string = response.data.id;
-      delete response.data.id;
-      createdAction = await this.repository.create({
-        actionId: actionId,
+    // if (response.status === HttpStatus.CREATED) {
+    //   const actionId: string = response.data.id;
+    //   delete response.data.id;
+    //   createdAction = await this.repository.create({
+    //     actionId: actionId,
 
-        ...response.data,
-      });
+    //     ...response.data,
+    //   });
 
-      return createdAction;
-    } else {
-      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
-    }
+    //   return createdAction;
+    // } else {
+    //   throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    // }
   }
 
   async getAllActions(pagination: QueryParamsDTO) {
@@ -66,19 +66,19 @@ export class CustomActionService {
     };
   }
   async bindWithAgent(agentId: string, customActionId: string) {
-    try {
-      const response = await this.apiCallsService.sendRequestToPlayAI({
-        uri: `${this.configService.get('playApiUrl')}/api/v1/agents/${agentId}/actions/${customActionId}`,
-        method: ACTION_VERBS.PATCH,
-        body: {
-          name: 'Kuantaw ziq ale',
-          description: 'Fetch available appointment times for the user',
-          endpoint: 'https://your-api.com/api/appointments',
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const response = await this.apiCallsService.sendRequestToPlayAI({
+    //     uri: `${this.configService.get('playApiUrl')}/api/v1/agents/${agentId}/actions/${customActionId}`,
+    //     method: ACTION_VERBS.PATCH,
+    //     body: {
+    //       name: 'Kuantaw ziq ale',
+    //       description: 'Fetch available appointment times for the user',
+    //       endpoint: 'https://your-api.com/api/appointments',
+    //     },
+    //   });
+    //   console.log(response);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 }

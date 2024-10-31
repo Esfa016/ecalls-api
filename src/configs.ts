@@ -15,4 +15,9 @@ export default () => ({
   playApiUrl: process.env.PLAY_API_URL,
   aimlApi: process.env.AIML_API,
   aimlBaseUrl: process.env.AIML_BASE_URL,
+  bulkVsUrl: process.env.BULK_VS_URL,
+  bulkVsApiKey: process.env.BULK_VS_API_KEY,
+  playHtBaseUrl: process.env.PLAY_HT_BASE_URL,
+  playHtUserId: process.env.PLAY_HT_USER_ID,
+  playHtSecretKey: process.env.PLAY_HT_SECRET_KEY,
 });

@@ -12,24 +12,24 @@ export class ConversationsService {
   ) {}
 
   async getAgentConvesation(agentId: string) {
-    const response = await this.apiCalls.sendRequestToPlayAI({
-      uri:
-        this.configService.get('playApiUrl') +
-        `/api/v1/agents/${agentId}/conversations`,
-      method: ACTION_VERBS.GET,
-    });
-    const data: IConversation[] | [] | null = response.data;
-    return data;
+    // const response = await this.apiCalls.sendRequestToPlayAI({
+    //   uri:
+    //     this.configService.get('playApiUrl') +
+    //     `/api/v1/agents/${agentId}/conversations`,
+    //   method: ACTION_VERBS.GET,
+    // });
+    // const data: IConversation[] | [] | null = response.data;
+    // return data;
   }
 
   async getConversationTranscript(agentId: string, conversationId: string) {
-    const response = await this.apiCalls.sendRequestToPlayAI({
-      uri:
-        this.configService.get('playApiUrl') +
-        `/api/v1/agents/${agentId}/conversations/${conversationId}/transcript`,
-      method: ACTION_VERBS.GET,
-    });
-    const data: ITransacript | [] | null = response.data;
-    return data;
+    // const response = await this.apiCalls.sendRequestToPlayAI({
+    //   uri:
+    //     this.configService.get('playApiUrl') +
+    //     `/api/v1/agents/${agentId}/conversations/${conversationId}/transcript`,
+    //   method: ACTION_VERBS.GET,
+    // });
+    // const data: ITransacript | [] | null = response.data;
+    // return data;
   }
 }

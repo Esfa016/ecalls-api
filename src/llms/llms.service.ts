@@ -21,6 +21,9 @@ export class LlmsService {
     const response = await this.apiCallsService.sendGeneralRequest({
       method: ACTION_VERBS.GET,
       uri: this.configService.get('aimlBaseUrl') + '/models',
+      headers: {
+        Authorization: `Bearer ${this.configService.get('aimlApi')}`,
+      },
     });
     if (response.status === HttpStatus.OK) {
         models = response.data['data'];
@@ -30,3 +33,4 @@ export class LlmsService {
     }
   }
 }
+

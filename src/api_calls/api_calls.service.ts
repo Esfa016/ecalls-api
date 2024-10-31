@@ -8,85 +8,84 @@ import { ConfigService } from '@nestjs/config';
 export class ApiCallsService {
   constructor(private configService: ConfigService) {}
 
-  sendRequestToPlayAI(data: MakeRequestDTO) {
-    switch (data.method) {
-      case ACTION_VERBS.POST: {
-        return axios.default({
-          url: data.uri,
-          method: ACTION_VERBS.POST,
-          data: data.body,
-          headers: {
-            AUTHORIZATION: this.configService.get('playSecretKey'),
-            'X-USER-ID': this.configService.get('playUserId'),
-            'content-type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-      }
-      case ACTION_VERBS.GET: {
-        return axios.default({
-          url: data.uri,
-          method: ACTION_VERBS.GET,
-          headers: {
-            AUTHORIZATION: this.configService.get('playSecretKey'),
-            'X-USER-ID': this.configService.get('playUserId'),
-            'content-type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-      }
-      case ACTION_VERBS.PUT: {
-        return axios.default({
-          url: data.uri,
-          method: ACTION_VERBS.PUT,
-          data: data.body,
-          headers: {
-            AUTHORIZATION: this.configService.get('playSecretKey'),
-            'X-USER-ID': this.configService.get('playUserId'),
-            'content-type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-      }
-      case ACTION_VERBS.PATCH: {
-        return axios.default({
-          url: data.uri,
-          method: ACTION_VERBS.PATCH,
-          data: data.body,
-          headers: {
-            AUTHORIZATION: this.configService.get('playSecretKey'),
-            'X-USER-ID': this.configService.get('playUserId'),
-            'content-type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-      }
+  // sendRequestToPlayAI(data: MakeRequestDTO) {
+  //   switch (data.method) {
+  //     case ACTION_VERBS.POST: {
+  //       return axios.default({
+  //         url: data.uri,
+  //         method: ACTION_VERBS.POST,
+  //         data: data.body,
+  //         headers: {
+  //           AUTHORIZATION: this.configService.get('playSecretKey'),
+  //           'X-USER-ID': this.configService.get('playUserId'),
+  //           'content-type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+  //     }
+  //     case ACTION_VERBS.GET: {
+  //       return axios.default({
+  //         url: data.uri,
+  //         method: ACTION_VERBS.GET,
+  //         headers: {
+  //           AUTHORIZATION: this.configService.get('playSecretKey'),
+  //           'X-USER-ID': this.configService.get('playUserId'),
+  //           'content-type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+  //     }
+  //     case ACTION_VERBS.PUT: {
+  //       return axios.default({
+  //         url: data.uri,
+  //         method: ACTION_VERBS.PUT,
+  //         data: data.body,
+  //         headers: {
+  //           AUTHORIZATION: this.configService.get('playSecretKey'),
+  //           'X-USER-ID': this.configService.get('playUserId'),
+  //           'content-type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+  //     }
+  //     case ACTION_VERBS.PATCH: {
+  //       return axios.default({
+  //         url: data.uri,
+  //         method: ACTION_VERBS.PATCH,
+  //         data: data.body,
+  //         headers: {
+  //           AUTHORIZATION: this.configService.get('playSecretKey'),
+  //           'X-USER-ID': this.configService.get('playUserId'),
+  //           'content-type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+  //     }
 
-      case ACTION_VERBS.DELETE: {
-        return axios.default({
-          url: data.uri,
-          method: ACTION_VERBS.DELETE,
+  //     case ACTION_VERBS.DELETE: {
+  //       return axios.default({
+  //         url: data.uri,
+  //         method: ACTION_VERBS.DELETE,
 
-          headers: {
-            AUTHORIZATION: this.configService.get('playSecretKey'),
-            'X-USER-ID': this.configService.get('playUserId'),
-            'content-type': 'application/json',
-            accept: 'application/json',
-          },
-        });
-      }
-    }
-  }
+  //         headers: {
+  //           AUTHORIZATION: this.configService.get('playSecretKey'),
+  //           'X-USER-ID': this.configService.get('playUserId'),
+  //           'content-type': 'application/json',
+  //           accept: 'application/json',
+  //         },
+  //       });
+  //     }
+  //   }
+  // }
   sendGeneralRequest(data: MakeRequestDTO) {
+    console.log(data)
     switch (data.method) {
       case ACTION_VERBS.POST: {
         return axios.default({
           url: data.uri,
           method: ACTION_VERBS.POST,
           data: data.body,
-          headers: {
-           Authorization: `Bearer ${this.configService.get('aimlApi')}`
-          },
+          headers: data.headers,
         });
       }
       case ACTION_VERBS.GET: {
@@ -103,9 +102,7 @@ export class ApiCallsService {
           url: data.uri,
           method: ACTION_VERBS.PUT,
           data: data.body,
-          headers: {
-            Authorization: `Bearer ${this.configService.get('aimlApi')}`,
-          },
+          headers: data.headers,
         });
       }
       case ACTION_VERBS.PATCH: {
@@ -113,9 +110,7 @@ export class ApiCallsService {
           url: data.uri,
           method: ACTION_VERBS.PATCH,
           data: data.body,
-          headers: {
-            Authorization: `Bearer ${this.configService.get('aimlApi')}`,
-          },
+          headers: data.headers,
         });
       }
 
@@ -124,9 +119,7 @@ export class ApiCallsService {
           url: data.uri,
           method: ACTION_VERBS.DELETE,
 
-          headers: {
-            Authorization: `Bearer ${this.configService.get('aimlApi')}`,
-          },
+          headers: data.headers,
         });
       }
     }

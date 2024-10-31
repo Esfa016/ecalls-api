@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosHeaders, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,13 +6,12 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-
 export enum ACTION_VERBS {
   POST = 'post',
   GET = 'get',
   PUT = 'put',
   DELETE = 'delete',
-  PATCH  = 'patch'
+  PATCH = 'patch',
 }
 
 export interface MakeRequestDTO {
@@ -20,7 +19,8 @@ export interface MakeRequestDTO {
 
   body?: object;
 
-    method: ACTION_VERBS;
-    
-    config?:AxiosRequestConfig
+  method: ACTION_VERBS;
+
+  config?: AxiosRequestConfig;
+  headers: RawAxiosRequestHeaders
 }
