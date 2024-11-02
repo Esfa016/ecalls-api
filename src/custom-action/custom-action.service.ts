@@ -26,32 +26,38 @@ export class CustomActionService {
   async createActions(body: CreateCustomActionsDto) {
     let createdAction: CustomActions | null = null;
 
-    // const response = await this.apiCallsService.sendRequestToPlayAI({
-    //   uri: this.configService.get('playApiUrl') + `/api/v1/external-functions`,
-    //   body: {
-    //     method: body.method.toUpperCase(),
-    //     name: body.name,
-    //     description: body.description,
-    //     endpointUrl: body.endpointUrl,
-    //     headers: body.headers,
-    //     params: body.params,
-    //   },
-    //   method: ACTION_VERBS.POST,
-    // });
+    const response = await this.apiCallsService.sendGeneralRequest({
+      uri: this.configService.get('playApiUrl') + `/api/v1/external-functions`,
+      body: {
+        method: body.method.toUpperCase(),
+        name: body.name,
+        description: body.description,
+        endpointUrl: body.endpointUrl,
+        headers: body.headers,
+        params: body.params,
+      },
+      method: ACTION_VERBS.POST,
+      headers: {
+        AUTHORIZATION: this.configService.get('playSecretKey'),
+        'X-USER-ID': this.configService.get('playUserId'),
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+    });
 
-    // if (response.status === HttpStatus.CREATED) {
-    //   const actionId: string = response.data.id;
-    //   delete response.data.id;
-    //   createdAction = await this.repository.create({
-    //     actionId: actionId,
+    if (response.status === HttpStatus.CREATED) {
+      const actionId: string = response.data.id;
+      delete response.data.id;
+      createdAction = await this.repository.create({
+        actionId: actionId,
 
-    //     ...response.data,
-    //   });
+        ...response.data,
+      });
 
-    //   return createdAction;
-    // } else {
-    //   throw new InternalServerErrorException(ErrorMessages.InternalServerError);
-    // }
+      return createdAction;
+    } else {
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    }
   }
 
   async getAllActions(pagination: QueryParamsDTO) {
