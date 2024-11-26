@@ -12,6 +12,7 @@ import { LlmsModule } from './llms/llms.module';
 import { WebtrcModule } from './webtrc/webtrc.module';
 import { PlayHtModule } from './play-ht/play-ht.module';
 import { CallersModule } from './callers/callers.module';
+import { TwilioCallsModule } from './twilio-calls/twilio-calls.module';
 
 
 
@@ -31,7 +32,8 @@ import { CallersModule } from './callers/callers.module';
     LlmsModule,
     WebtrcModule,
     PlayHtModule,
-    CallersModule
+    CallersModule,
+    TwilioCallsModule
    
   
   ],

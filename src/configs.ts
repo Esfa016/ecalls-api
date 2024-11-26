@@ -20,4 +20,6 @@ export default () => ({
   playHtBaseUrl: process.env.PLAY_HT_BASE_URL,
   playHtUserId: process.env.PLAY_HT_USER_ID,
   playHtSecretKey: process.env.PLAY_HT_SECRET_KEY,
+  twilioSid: process.env.TWILIO_SID,
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
 });

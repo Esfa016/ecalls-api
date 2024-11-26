@@ -55,6 +55,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "mongoose": "^7.5.1",
+    "nestjs-twilio": "^4.4.0",
     "nestjs-uuid": "^0.0.6",
     "openai": "^4.68.1",
     "otp-generator-ts": "^1.0.0",
@@ -64,6 +65,7 @@
     "rxjs": "^7.8.1",
     "socket.io": "^4.8.0",
     "stripe": "^16.8.0",
+    "twilio": "^5.3.5",
     "ws": "^8.18.0"
   },
   "devDependencies": {

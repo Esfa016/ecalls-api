@@ -32,52 +32,68 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
+
       const message =
         typeof exceptionResponse === 'string'
           ? exceptionResponse
-          : (exceptionResponse as any).message;
+          : (exceptionResponse as any).message || 'An error occurred';
 
       if (status !== HttpStatus.INTERNAL_SERVER_ERROR) {
+        this.logger.warn(`HTTP Exception: ${message}`, exception.stack);
 
         response.status(status).json({
           statusCode: status,
           timestamp: new Date().toISOString(),
           path: request.url,
-          message: message,
-          
+          message,
         });
       } else {
-        
-        this.logger.error(exception);
+        this.logger.error('Internal Server Error:', exception.stack);
 
         response.status(status).json({
           statusCode: status,
           timestamp: new Date().toISOString(),
           path: request.url,
-          message: ErrorMessages.InternalServerError
-         
+          message: ErrorMessages.InternalServerError,
         });
       }
+    } else if ((exception as any).isAxiosError) {
+      const axiosError = exception as any;
+      const status =
+        axiosError.response?.status || HttpStatus.INTERNAL_SERVER_ERROR;
+      const message =
+        axiosError.response?.data?.message ||
+        axiosError.message ||
+        'API request error';
+
+      this.logger.error(`Axios Error: ${message}`, axiosError.stack);
+this.logger.error(exception)
+      response.status(status).json({
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+        message,
+        details: axiosError.response?.data || null,
+      });
     } else {
-     
-      this.logger.error(exception);
+      this.logger.error('Unhandled Exception:', exception);
+
       response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         timestamp: new Date().toISOString(),
         path: request.url,
         message: ErrorMessages.InternalServerError,
-      
       });
     }
 
     super.catch(exception, host);
   }
 }
-export enum AccountRoles { 
-  ADMIN = "ADMIN",
-  CLIENT = "CLIENT"
-}
 
+export enum AccountRoles {
+  ADMIN = 'ADMIN',
+  CLIENT = 'CLIENT',
+}
 
 export interface UserAccount {
   id: mongoose.Schema.Types.ObjectId;
