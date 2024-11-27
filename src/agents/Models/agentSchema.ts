@@ -59,6 +59,8 @@ export class Agents extends Document {
 
   @Prop({ index: true })
   agentId: string;
+  @Prop({ type: Array })
+  actions:string[]
 }
 
 export const AgentConfigSchema = SchemaFactory.createForClass(Agents);
