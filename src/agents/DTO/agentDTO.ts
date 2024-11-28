@@ -131,3 +131,22 @@ export interface IAgentStats {
   numberOfPhoneConversations: number;
   numberOfSecondsTalked: number;
 }
+export enum CountryCodes  {
+  US = 'US',
+  CA = 'CA',
+  GB = 'GB'
+
+}
+
+export class AddPhoneNumberToAgentDTO{
+  @IsEnum(CountryCodes)
+  @IsNotEmpty()
+  countryCode: CountryCodes
+  @IsOptional()
+  @IsString()
+  areaCode: string
+  @IsString()
+  @IsNotEmpty()
+  agentId:string
+
+} 

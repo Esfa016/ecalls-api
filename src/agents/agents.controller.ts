@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { AgentsService } from './agents.service';
 import { Response } from 'express';
-import { CreateAgentDTO, UpdateAgentDTO } from './DTO/agentDTO';
+import { AddPhoneNumberToAgentDTO, CreateAgentDTO, UpdateAgentDTO } from './DTO/agentDTO';
 import { SuccessMessages } from 'src/Global/messages';
 import { UserAuthGuard } from 'src/auth/Guards/jwtStrategy';
 import { RbacGuard } from 'src/auth/Guards/RbacGuard';
@@ -61,8 +61,14 @@ export class AgentsController {
   @UseGuards(UserAuthGuard)
   @Get("/agent-statistics/:agentId")
   async getAgentStats(@Res() res: Response, @Param('agentId') agentId: string) {
-    console.log(agentId)
     const result = await this.agentsService.getAgentStats(agentId)
     return res.status(HttpStatus.OK).json({success:true,stats:result})
+  }
+  @UseGuards(UserAuthGuard)
+  @Post('add-phone-number')
+  async addPhoneToAgent(@Res() res: Response, @Body() body: AddPhoneNumberToAgentDTO) {
+    const result = await this.agentsService.addPhoneToAgent(body)
+    return res.status(HttpStatus.OK).json({success:true,result:result})
+    
   }
 }

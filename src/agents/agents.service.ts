@@ -7,7 +7,12 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Agents } from './Models/agentSchema';
 import { Model } from 'mongoose';
-import { CreateAgentDTO, IAgentStats, UpdateAgentDTO } from './DTO/agentDTO';
+import {
+  AddPhoneNumberToAgentDTO,
+  CreateAgentDTO,
+  IAgentStats,
+  UpdateAgentDTO,
+} from './DTO/agentDTO';
 import { ApiCallsService } from 'src/api_calls/api_calls.service';
 import { ACTION_VERBS } from 'src/api_calls/DTO/apiCallsDTO';
 import { ConfigService } from '@nestjs/config';
@@ -109,6 +114,44 @@ export class AgentsService {
     });
     if (response.status === HttpStatus.OK) {
       const data: IAgentStats = response.data;
+      return data;
+    } else {
+      throw new InternalServerErrorException(ErrorMessages.InternalServerError);
+    }
+  }
+
+  async addPhoneToAgent(body: AddPhoneNumberToAgentDTO) {
+    const agentFound: Agents = await this.getAgentByAgentId(body.agentId);
+    if (!agentFound) throw new NotFoundException(ErrorMessages.AgentNotFound);
+    const response = await this.apiCallService.sendGeneralRequest({
+      uri:
+        this.configService.get('playApiUrl') +
+        `/api/v1/agents/${body.agentId}/phone-numbers`,
+      method: ACTION_VERBS.POST,
+      headers: {
+        AUTHORIZATION: this.configService.get('playSecretKey'),
+        'X-USER-ID': this.configService.get('playUserId'),
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      body: {
+        countryCode: body.countryCode,
+        areaCode: body.areaCode,
+      },
+    });
+    if (
+      response.status === HttpStatus.OK ||
+      response.status === HttpStatus.CREATED
+    ) {
+      const phone: string = response.data;
+      await this.repository.findByIdAndUpdate(agentFound._id, {
+        phoneNumber: phone,
+      });
+      const data = {
+        agentId: agentFound.agentId,
+        displayName: agentFound.displayName,
+        phoneNumber: phone,
+      };
       return data;
     } else {
       throw new InternalServerErrorException(ErrorMessages.InternalServerError);

@@ -60,12 +60,13 @@ export class Agents extends Document {
   @Prop({ index: true })
   agentId: string;
   @Prop({ type: Array })
-  actions:string[]
+  actions: string[]
+  @Prop()
+  phoneNumber:string
 }
 
 export const AgentConfigSchema = SchemaFactory.createForClass(Agents);
 
-// Create indexes for efficient querying
 AgentConfigSchema.index({ 'conversationRecordings.conversationId': 1 });
 AgentConfigSchema.index({ 'conversationRecordings.startedAt': 1 });
 AgentConfigSchema.index({ 'conversationRecordings.createdAt': 1 });
